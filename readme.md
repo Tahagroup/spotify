@@ -1,7 +1,5 @@
 Spotify
 =======
-![Home](Home.png)
-
 ## Features
 
 - Albums list
