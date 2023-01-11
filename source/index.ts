@@ -8,55 +8,9 @@ let albumsData: Album[] = JSON.parse(data);
 let audiotag = document.createElement("audio");
 audiotag.id = "audiotag";
 let isPlaying = false;
-
-////////////////////////////////////////////////////////////////
-// let searchResult: any = {
-//   artists: [],
-//   songs: [],
-//   albums: [],
-// };
-// function searchStartHandler() {
-//   // if (event.key === "Enter") {
-//   searchResult = searchFor();
-//   navigateTo("search");
-//   // }
-// }
-// function searchFor(searchText: string) {
-//   const resultsInArtists = albumsData.filter((result) =>
-//     result.album.album_composer
-//       .toLowerCase()
-//       .startsWith(searchText.toLowerCase())
-//   );
-
-//   let resultsInSongs: Music[] = [];
-//   albumsData.forEach((album) => {
-//     const foundedInMusics = album.musics.filter((music) =>
-//       music.track_name.toLowerCase().startsWith(searchText.toLowerCase())
-//     );
-//     foundedInMusics.length && resultsInSongs.push(...foundedInMusics);
-//   });
-//   const resultsInAlbumName = albumsData.filter((result) =>
-//     result.album.album_name.toLowerCase().startsWith(searchText.toLowerCase())
-//   );
-//   const Results = {
-//     artists: resultsInArtists.map((result) => {
-//       return { ID: result.album.id, name: result.album.album_composer };
-//     }),
-//     songs: resultsInSongs.map((result) => {
-//       return result;
-//     }),
-//     albums: resultsInAlbumName.map((result) => {
-//       return result.album;
-//     }),
-//   };
-//   return Results;
-// }
-
 ////////////////////// Router setup /////////////////////////////
 router();
-// window.addEventListener("load", router);
 window.addEventListener("popstate", router); // when hitting back button
-// gets route and returns componentFunc
 function resolveRoute(route: string, nestedRoute: string) {
   if (route === "dist" && nestedRoute === "home") {
     return homePage;
@@ -87,15 +41,6 @@ function resolveRoute(route: string, nestedRoute: string) {
 function router() {
   root.innerHTML = "";
   let url = window.location.href.split("/").filter((URLPart) => URLPart !== "");
-
-  // const backGoesToPlayer = history.state.pageID.startsWith("music");
-  // console.log(backGoesToPlayer);
-
-  // if (backGoesToPlayer) {
-  //   history.back();
-  //   return;
-  // }
-
   let route = resolveRoute(url[url.length - 2], url[url.length - 1]);
   // runs component function:
   route();
@@ -404,10 +349,6 @@ function homePage() {
   root.appendChild(div);
 }
 function searchPage() {
-  // render search box and empty results
-  // create observable from keypresses, throttle
-  // insert HTML to results based on emmited values
-
   const div = document.createElement("div");
   div.innerHTML = `
       <div class="searchPage">
@@ -777,8 +718,6 @@ async function loadTrackFromDB(
           isPlaying = false;
           icon.src = "../../assets/play-icon.svg";
         }
-
-        console.log("loaded from indexedDB");
       } else {
         // is not in indexedDB, download it
         audiotag.src = (await downloadAndStoreInDB(track_url, musicid)) || "";
@@ -792,8 +731,6 @@ async function loadTrackFromDB(
           isPlaying = false;
           icon.src = "../../assets/play-icon.svg";
         }
-
-        console.log("downloaded");
       }
     };
     transaction.oncomplete = function () {
