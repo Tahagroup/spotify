@@ -1,3 +1,6 @@
+// @ts-ignore
+const { fromEvent, throttleTime, debounceTime, tap, filter, pluck } = rxjs;
+
 //////////////////////Initial Setup/////////////////////////////
 const root = document.querySelector("#root")!;
 // @ts-ignore
@@ -7,47 +10,47 @@ audiotag.id = "audiotag";
 let isPlaying = false;
 
 ////////////////////////////////////////////////////////////////
-let searchResult: any = {
-  artists: [],
-  songs: [],
-  albums: [],
-};
-function searchStartHandler(event: any) {
-  if (event.key === "Enter") {
-    searchResult = searchFor(event.target.value);
-    navigateTo("search");
-  }
-}
-function searchFor(searchText: string) {
-  const resultsInArtists = albumsData.filter((result) =>
-    result.album.album_composer
-      .toLowerCase()
-      .startsWith(searchText.toLowerCase())
-  );
+// let searchResult: any = {
+//   artists: [],
+//   songs: [],
+//   albums: [],
+// };
+// function searchStartHandler() {
+//   // if (event.key === "Enter") {
+//   searchResult = searchFor();
+//   navigateTo("search");
+//   // }
+// }
+// function searchFor(searchText: string) {
+//   const resultsInArtists = albumsData.filter((result) =>
+//     result.album.album_composer
+//       .toLowerCase()
+//       .startsWith(searchText.toLowerCase())
+//   );
 
-  let resultsInSongs: Music[] = [];
-  albumsData.forEach((album) => {
-    const foundedInMusics = album.musics.filter((music) =>
-      music.track_name.toLowerCase().startsWith(searchText.toLowerCase())
-    );
-    foundedInMusics.length && resultsInSongs.push(...foundedInMusics);
-  });
-  const resultsInAlbumName = albumsData.filter((result) =>
-    result.album.album_name.toLowerCase().startsWith(searchText.toLowerCase())
-  );
-  const Results = {
-    artists: resultsInArtists.map((result) => {
-      return { ID: result.album.id, name: result.album.album_composer };
-    }),
-    songs: resultsInSongs.map((result) => {
-      return result;
-    }),
-    albums: resultsInAlbumName.map((result) => {
-      return result.album;
-    }),
-  };
-  return Results;
-}
+//   let resultsInSongs: Music[] = [];
+//   albumsData.forEach((album) => {
+//     const foundedInMusics = album.musics.filter((music) =>
+//       music.track_name.toLowerCase().startsWith(searchText.toLowerCase())
+//     );
+//     foundedInMusics.length && resultsInSongs.push(...foundedInMusics);
+//   });
+//   const resultsInAlbumName = albumsData.filter((result) =>
+//     result.album.album_name.toLowerCase().startsWith(searchText.toLowerCase())
+//   );
+//   const Results = {
+//     artists: resultsInArtists.map((result) => {
+//       return { ID: result.album.id, name: result.album.album_composer };
+//     }),
+//     songs: resultsInSongs.map((result) => {
+//       return result;
+//     }),
+//     albums: resultsInAlbumName.map((result) => {
+//       return result.album;
+//     }),
+//   };
+//   return Results;
+// }
 
 ////////////////////// Router setup /////////////////////////////
 router();
@@ -345,8 +348,8 @@ async function playerPage() {
       currentTime.textContent = currentMinutes + ":" + currentSeconds;
     }
   }
-  let updateTimer: number | undefined;
-  updateTimer = setInterval(seekUpdate, 1000);
+  let timerID: number | undefined;
+  timerID = setInterval(seekUpdate, 1000);
   await loadTrackFromDB(
     musicDetail.id,
     musicDetail.track_url,
@@ -401,70 +404,29 @@ function homePage() {
   root.appendChild(div);
 }
 function searchPage() {
+  // render search box and empty results
+  // create observable from keypresses, throttle
+  // insert HTML to results based on emmited values
+
   const div = document.createElement("div");
   div.innerHTML = `
       <div class="searchPage">
-      <div class="searchBar">
-      <input class="search-input" type="text" placeholder="Search" />
-      <div class='clear-input'>Cancel</div>
-      <img class="camera-icon" src="../../assets/camera-icon.svg" alt="" />
+        <div class="searchBar">
+          <input class="search-input" type="text" placeholder="Search" />
+          <div class='clear-input'>Cancel</div>
+          <img class="camera-icon" src="../../assets/camera-icon.svg" alt="" />
+        </div>
       </div>
-      <h5 style='margin-left:20px'>Recent searches</h5>
-      <div class='found-items-wrapper'>
-      ${
-        // artists
-        searchResult.artists.length !== 0
-          ? searchResult.artists
-              .map((artist: any) => {
-                return `<div class="found-item">
-          <img class="found-pic" src="../../assets/found-pic.jpg" style='border-radius:50%;' alt="" />
-          <div class='found-wrapper'>
-          <div class="found-name">${artist.name}</div>
-          <div class="found-type">Artist</div>
-          </div>
-          <img class="cross-icon" src="../../assets/close-icon.svg" alt="delete" />
-          </div>`;
-              })
-              .join("")
-          : ""
-      }
-      ${
-        // songs
-        searchResult.songs.length !== 0
-          ? searchResult.songs
-              .map((song: any) => {
-                return `<a class="found-item" onclick="navigateTo('music/${song.id}')">
-          <img class="found-pic" src=${song.track_thumb} alt="" />
-          <div class='found-wrapper'>
-          <div class="found-name">${song.track_name}</div>
-          <div class="found-type">song</div>
-          </div>
-          <img class="cross-icon" src="../../assets/close-icon.svg" alt="delete" />
-          </a>`;
-              })
-              .join("")
-          : ""
-      }
-      ${
-        // albums
-        searchResult.albums.length !== 0
-          ? searchResult.albums
-              .map((album: any) => {
-                return `<div class="found-item" onclick="navigateTo('albums/${album.id}')">
-          <img class="found-pic" src=${album.album_thumb} alt="" />
-          <div class='found-wrapper'>
-          <div class="found-name">${album.album_name}</div>
-          <div class="found-type">Album by ${album.album_composer}</div>
-          </div>
-          <img class="cross-icon" src="../../assets/close-icon.svg" alt="delete" />
-          </div>`;
-              })
-              .join("")
-          : ""
-      }
-      </div>
-      </div>
-      ${navMenu("search")}`;
+      <div class='found-items-wrapper'></div>
+      ${navMenu("search")}
+      `;
+  /////////////////////////////////////////////////
+  let searchResult: any = {
+    artists: [],
+    songs: [],
+    albums: [],
+  };
+
   root.appendChild(div);
   const cancelButton = document.querySelector(".clear-input");
   const inputElement = document.querySelector(
@@ -473,9 +435,110 @@ function searchPage() {
   cancelButton?.addEventListener("click", () => {
     inputElement!.value = "";
   });
-  inputElement!.addEventListener("keydown", (event) =>
-    searchStartHandler(event)
-  );
+
+  fromEvent(inputElement, "input")
+    .pipe(debounceTime(1000), pluck("target", "value"))
+    .subscribe({
+      next: (next: string) => {
+        searchHandler(next);
+      },
+      error: (error: any) => {
+        console.log(error);
+      },
+      completed: null,
+    });
+
+  function searchHandler(text: string) {
+    searchResult = text === "" ? null : searchFor(text);
+    const itemsWrapperElement = document.querySelector(".found-items-wrapper");
+    itemsWrapperElement!.innerHTML = "";
+    const searchHTML = !searchResult
+      ? ""
+      : `
+    ${
+      // artists
+      searchResult.artists.length !== 0
+        ? searchResult.artists
+            .map((artist: any) => {
+              return `<div class="found-item">
+        <img class="found-pic" src="../../assets/found-pic.jpg" style='border-radius:50%;' alt="" />
+        <div class='found-wrapper'>
+        <div class="found-name">${artist.name}</div>
+        <div class="found-type">Artist</div>
+        </div>
+        <img class="cross-icon" src="../../assets/close-icon.svg" alt="delete" />
+        </div>`;
+            })
+            .join("")
+        : ""
+    }
+    ${
+      // songs
+      searchResult.songs.length !== 0
+        ? searchResult.songs
+            .map((song: any) => {
+              return `<a class="found-item" onclick="navigateTo('music/${song.id}')">
+        <img class="found-pic" src=${song.track_thumb} alt="" />
+        <div class='found-wrapper'>
+        <div class="found-name">${song.track_name}</div>
+        <div class="found-type">song</div>
+        </div>
+        <img class="cross-icon" src="../../assets/close-icon.svg" alt="delete" />
+        </a>`;
+            })
+            .join("")
+        : ""
+    }
+    ${
+      // albums
+      searchResult.albums.length !== 0
+        ? searchResult.albums
+            .map((album: any) => {
+              return `<div class="found-item" onclick="navigateTo('albums/${album.id}')">
+        <img class="found-pic" src=${album.album_thumb} alt="" />
+        <div class='found-wrapper'>
+        <div class="found-name">${album.album_name}</div>
+        <div class="found-type">Album by ${album.album_composer}</div>
+        </div>
+        <img class="cross-icon" src="../../assets/close-icon.svg" alt="delete" />
+        </div>`;
+            })
+            .join("")
+        : ""
+    }
+    `;
+    itemsWrapperElement!.insertAdjacentHTML("afterbegin", searchHTML);
+  }
+  function searchFor(searchText: string) {
+    const resultsInArtists = albumsData.filter((result) =>
+      result.album.album_composer
+        .toLowerCase()
+        .startsWith(searchText.toLowerCase())
+    );
+
+    let resultsInSongs: Music[] = [];
+    albumsData.forEach((album) => {
+      const foundedInMusics = album.musics.filter((music) =>
+        music.track_name.toLowerCase().startsWith(searchText.toLowerCase())
+      );
+      foundedInMusics.length && resultsInSongs.push(...foundedInMusics);
+    });
+    const resultsInAlbumName = albumsData.filter((result) =>
+      result.album.album_name.toLowerCase().startsWith(searchText.toLowerCase())
+    );
+    return {
+      artists: resultsInArtists.map((result) => {
+        return { ID: result.album.id, name: result.album.album_composer };
+      }),
+      songs: resultsInSongs.map((result) => {
+        return result;
+      }),
+      albums: resultsInAlbumName.map((result) => {
+        return result.album;
+      }),
+    };
+  }
+  /////////////////////////////////////////
 }
 function libraryPage() {
   const likedItem = `<div class="like-item" onclick='navigateTo("library/likedsongs")'>

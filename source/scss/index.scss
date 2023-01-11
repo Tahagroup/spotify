@@ -118,7 +118,7 @@ a {
       padding-left: 40px;
       font-family: "circularstd";
       font-size: 16px;
-      background-image: url("../../dist/assets/input-search-icon.svg");
+      background-image: url("../assets/input-search-icon.svg");
       background-position: 10px 5px;
       background-repeat: no-repeat;
       background-size: 15px;
@@ -131,36 +131,36 @@ a {
       height: 25px;
     }
   }
-  .found-items-wrapper {
-    padding-bottom: 50px;
-    .found-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 12px 20px 10px 20px;
-      color: white;
-      .found-pic {
-        width: 40px;
-        height: 40px;
-        // border-radius: 50%;
+}
+.found-items-wrapper {
+  padding-bottom: 50px;
+  .found-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 12px 20px 10px 20px;
+    color: white;
+    .found-pic {
+      width: 40px;
+      height: 40px;
+      // border-radius: 50%;
+    }
+    .found-wrapper {
+      margin-right: auto;
+      margin-left: 15px;
+      text-align: left;
+      font-size: 14px;
+      text-align: left;
+      .found-name {
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 3px;
       }
-      .found-wrapper {
-        margin-right: auto;
-        margin-left: 15px;
-        text-align: left;
-        font-size: 14px;
-        text-align: left;
-        .found-name {
-          font-size: 12px;
-          font-weight: bold;
-          margin-bottom: 3px;
-        }
-        .found-type {
-          font-size: 10px;
-        }
+      .found-type {
+        font-size: 10px;
       }
-      .cross-icon {
-      }
+    }
+    .cross-icon {
     }
   }
 }
@@ -470,7 +470,7 @@ a {
       padding-left: 35px;
       font-family: "circularstd";
       font-size: 12px;
-      background-image: url("../../dist/assets/input-search-icon.svg");
+      background-image: url("../assets/input-search-icon.svg");
       background-position: 10px 6px;
       background-repeat: no-repeat;
       background-size: 15px;
