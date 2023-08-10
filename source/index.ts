@@ -8,7 +8,8 @@ let albumsData: Album[] = JSON.parse(data);
 let audiotag = document.createElement("audio");
 audiotag.id = "audiotag";
 let isPlaying = false;
-// Router setup
+
+// router setup
 router();
 window.addEventListener("popstate", router); // when hitting back button
 function resolveRoute(route: string, nestedRoute: string) {
@@ -58,10 +59,8 @@ function navMenu(activeTab: string) {
     activeTab === "home" ? "active" : ""
   }' onclick="navigateTo('home')">
   <img class='nav-icon' src="${
-    activeTab === "home"
-      ? "../../assets/home-fill-icon.svg"
-      : "../../assets/home-icon.svg"
-  }" onerror="this.onerror=null; this.src='../../assets/home-icon.svg'" alt="" />
+    activeTab === "home" ? "../../home-fill-icon.svg" : "../../home-icon.svg"
+  }" onerror="this.onerror=null; this.src='../../home-icon.svg'" alt="" />
   <div>Home</div>
   </div>
   <div class='nav-item ${
@@ -69,9 +68,9 @@ function navMenu(activeTab: string) {
   }' onclick="navigateTo('search')">
   <img class='nav-icon' src="${
     activeTab === "search"
-      ? "../../assets/search-fill-icon.svg"
-      : "../../assets/search-icon.svg"
-  }" onerror="this.onerror=null; this.src='../../assets/search-icon.svg'" alt="" />
+      ? "../../search-fill-icon.svg"
+      : "../../search-icon.svg"
+  }" onerror="this.onerror=null; this.src='../../search-icon.svg'" alt="" />
   <div>Search</div>
   </div>
   <div class='nav-item ${
@@ -79,9 +78,9 @@ function navMenu(activeTab: string) {
   }' onclick="navigateTo('library')">
   <img class='nav-icon' src="${
     activeTab === "library"
-      ? "../../assets/library-fill-icon.svg"
-      : "../../assets/library-icon.svg"
-  }" onerror="this.onerror=null; this.src='../../assets/library-icon.svg'" alt="" />
+      ? "../../library-fill-icon.svg"
+      : "../../library-icon.svg"
+  }" onerror="this.onerror=null; this.src='../../library-icon.svg'" alt="" />
   <div>Your Library</div>
   </div>
   </div>`;
@@ -104,9 +103,9 @@ async function playerPage() {
   const div = document.createElement("div");
   div.innerHTML = `<div class='player-wrapper'>
   <div class="player-options">
-    <img class="player-chevron" src="../../assets/chevron-icon.svg" />
+    <img class="player-chevron" src="../../chevron-icon.svg" />
     <div class="liked-songs">Liked Songs</div>
-    <img class="three-dots" src="../../assets/more-icon.svg" />
+    <img class="three-dots" src="../../more-icon.svg" />
   </div>
   <div class='player-pic-wrapper'>
   <img class="player-pic" src=${musicDetail.track_thumb} />
@@ -118,8 +117,8 @@ async function playerPage() {
     </div>
     <img class="player-like" data-id='${musicDetail.id}' src="${
     musicDetail.is_favorited
-      ? "../../assets/like-fill-icon.svg"
-      : "../../assets/like-nofill-icon.svg"
+      ? "../../like-fill-icon.svg"
+      : "../../like-nofill-icon.svg"
   }"/>
   </div>
   <div class="slider_container">
@@ -131,18 +130,18 @@ async function playerPage() {
       </div>
   </div>
   <div class="music-options">
-    <img src="../../assets/shuffle-off-icon.svg" alt="" class="shuffle-icon" />
-    <img src="../../assets/prev-music-icon.svg" alt="" class="prev-icon" />
+    <img src="../../shuffle-off-icon.svg" alt="" class="shuffle-icon" />
+    <img src="../../prev-music-icon.svg" alt="" class="prev-icon" />
     <div class='play-pause-icon'>
-      <img src="../../assets/ellipse-icon.svg" alt="" class="ellipse-icon" />
-      <img src="../../assets/wait-icon.svg" alt="" class="pause-icon" />
+      <img src="../../ellipse-icon.svg" alt="" class="ellipse-icon" />
+      <img src="../../wait-icon.svg" alt="" class="pause-icon" />
     </div>
-    <img src="../../assets/next-music-icon.svg" alt="" class="next-icon" />
-    <img src="../../assets/repeat-icon.svg" alt="" class="repeat-icon" />
+    <img src="../../next-music-icon.svg" alt="" class="next-icon" />
+    <img src="../../repeat-icon.svg" alt="" class="repeat-icon" />
   </div>
   <div class="devices-queue">
-    <img src="../../assets/devices-icon.svg" alt="" class="player-devices" />
-    <img src="../../assets/queue-icon.svg" alt="" class="player-queue" />
+    <img src="../../devices-icon.svg" alt="" class="player-devices" />
+    <img src="../../queue-icon.svg" alt="" class="player-queue" />
   </div>
 </div>`;
 
@@ -177,8 +176,8 @@ async function playerPage() {
           1 - currentFavStatus;
         likeButton.src =
           currentFavStatus === 0
-            ? "../../assets/like-fill-icon.svg"
-            : "../../assets/like-nofill-icon.svg";
+            ? "../../like-fill-icon.svg"
+            : "../../like-nofill-icon.svg";
       }
     });
   });
@@ -188,10 +187,10 @@ async function playerPage() {
   shuffleButton.addEventListener("click", () => {
     if (isShuffling) {
       isShuffling = false;
-      shuffleButton.src = "../../assets/shuffle-off-icon.svg";
+      shuffleButton.src = "../../shuffle-off-icon.svg";
     } else {
       isShuffling = true;
-      shuffleButton.src = "../../assets/shuffle-icon.svg";
+      shuffleButton.src = "../../shuffle-icon.svg";
     }
   });
   audiotag.addEventListener("ended", function () {
@@ -230,11 +229,11 @@ async function playerPage() {
     if (isPlaying) {
       isPlaying = false;
       audiotag.pause();
-      playPauseElement.src = "../../assets/play-icon.svg";
+      playPauseElement.src = "../../play-icon.svg";
     } else {
       isPlaying = true;
       audiotag.play();
-      playPauseElement.src = "../../assets/pause-icon.svg";
+      playPauseElement.src = "../../pause-icon.svg";
     }
   });
   function seekUpdate() {
@@ -273,27 +272,27 @@ function homePage() {
     <h3>Good afternoon</h3>
     <div class='categoriesClassWrapper'>
     <div class="categoryCard" on>
-    <img src="../../assets/home-card-1.png" alt="" />
+    <img src="../../home-card-1.png" alt="" />
     <div>Dance & EDM</div>
     </div>
     <div class="categoryCard">
-      <img src="../../assets/home-card-2.png" alt="" />
+      <img src="../../home-card-2.png" alt="" />
       <div>Country Rocks</div>
     </div>
     <div class="categoryCard">
-      <img src="../../assets/home-card-3.png" alt="" />
+      <img src="../../home-card-3.png" alt="" />
       <div>Indie</div>
     </div>
     <div class="categoryCard">
-      <img src="../../assets/home-card-4.png" alt="" />
+      <img src="../../home-card-4.png" alt="" />
       <div>Chilled Hits</div>
     </div>
     <div class="categoryCard">
-      <img src="../../assets/home-card-5.png" alt="" />
+      <img src="../../home-card-5.png" alt="" />
       <div>Electronic</div>
     </div>
     <div class="categoryCard">
-      <img src="../../assets/home-card-6.png" alt="" />
+      <img src="../../home-card-6.png" alt="" />
       <div>Are & Be</div>
     </div>
       </div>
@@ -319,7 +318,7 @@ function searchPage() {
         <div class="searchBar">
           <input class="search-input" type="text" placeholder="Search" />
           <div class='clear-input'>Cancel</div>
-          <img class="camera-icon" src="../../assets/camera-icon.svg" alt="" />
+          <img class="camera-icon" src="../../camera-icon.svg" alt="" />
         </div>
       </div>
       <div class='found-items-wrapper'></div>
@@ -366,12 +365,12 @@ function searchPage() {
         ? searchResult.artists
             .map((artist: any) => {
               return `<div class="found-item">
-        <img class="found-pic" src="../../assets/found-pic.jpg" style='border-radius:50%;' alt="" />
+        <img class="found-pic" src="../../found-pic.jpg" style='border-radius:50%;' alt="" />
         <div class='found-wrapper'>
         <div class="found-name">${artist.name}</div>
         <div class="found-type">Artist</div>
         </div>
-        <img class="cross-icon" src="../../assets/close-icon.svg" alt="delete" />
+        <img class="cross-icon" src="../../close-icon.svg" alt="delete" />
         </div>`;
             })
             .join("")
@@ -388,7 +387,7 @@ function searchPage() {
         <div class="found-name">${song.track_name}</div>
         <div class="found-type">song</div>
         </div>
-        <img class="cross-icon" src="../../assets/close-icon.svg" alt="delete" />
+        <img class="cross-icon" src="../../close-icon.svg" alt="delete" />
         </a>`;
             })
             .join("")
@@ -405,7 +404,7 @@ function searchPage() {
         <div class="found-name">${album.album_name}</div>
         <div class="found-type">Album by ${album.album_composer}</div>
         </div>
-        <img class="cross-icon" src="../../assets/close-icon.svg" alt="delete" />
+        <img class="cross-icon" src="../../close-icon.svg" alt="delete" />
         </div>`;
             })
             .join("")
@@ -448,7 +447,7 @@ function libraryPage() {
   const likedItem = `<div class="like-item" onclick='navigateTo("library/likedsongs")'>
   <img
   class="likedsongs-pic"
-  src="../../assets/like-fill-icon.svg"
+  src="../../like-fill-icon.svg"
   alt=""
   />
   <div class="likedsongs-name">Liked Songs</div>
@@ -511,7 +510,7 @@ function libraryPage() {
       .map((album) => {
         return `
         <div class="album-item" onclick="navigateTo('albums/${album.album.id}')">
-        <img src="../../assets/found-pic.jpg" alt="" class="artist-image" />
+        <img src="../../found-pic.jpg" alt="" class="artist-image" />
         <div class="album-details">
           <div class="album-composer">${album.album.album_composer}</div>
         </div>
@@ -561,17 +560,17 @@ function albumsPage() {
   </div>
   <div class="album-name">${albumDetail.album_name}</div>
   <div class="album-composer">
-    <img src="../../assets/found-pic.jpg" alt="" class="artist-image" />
+    <img src="../../found-pic.jpg" alt="" class="artist-image" />
     <div class="artist-name">${albumDetail.album_composer}</div>
   </div>
   <div class="album-date">Album ▪ 2017</div>
   <div class="album-icons">
-    <img src="../../assets/like-nofill-icon.svg" class="album-like" />
-    <img src="../../assets/download-icon.svg" class="album-download" />
-    <img src="../../assets/more-icon.svg" class="album-more" />
+    <img src="../../like-nofill-icon.svg" class="album-like" />
+    <img src="../../download-icon.svg" class="album-download" />
+    <img src="../../more-icon.svg" class="album-more" />
     <div class="album-play-shuffle">
-      <img src="../../assets/play-icon.svg" alt="" class="album-play-icon" />
-      <img src="../../assets/shuffle-icon.svg" alt="" class="album-shuffle-icon" />
+      <img src="../../play-icon.svg" alt="" class="album-play-icon" />
+      <img src="../../shuffle-icon.svg" alt="" class="album-shuffle-icon" />
     </div>
   </div>
   <div class="album-songs-wrapper">
@@ -582,7 +581,7 @@ function albumsPage() {
       <div class="album-song-name">${song.track_name}</div>
       <div class="album-song-artist">${albumDetail.album_composer}</div>
     </div>
-    <img src="../../assets/more-icon.svg" alt="" class="more-icon" />
+    <img src="../../more-icon.svg" alt="" class="more-icon" />
   </div>`;
     })
     .join("")}
@@ -625,10 +624,10 @@ function likedSongsPage() {
       </div>
       <img
       class="like-icon"
-      src="../../assets/like-fill-icon.svg"
+      src="../../like-fill-icon.svg"
       alt="like"
       />
-      <img class="more-icon" src="../../assets/more-icon.svg" alt="more" />
+      <img class="more-icon" src="../../more-icon.svg" alt="more" />
       </div>
       `;
           })
@@ -671,28 +670,28 @@ async function loadTrackFromDB(
         // file to (blob to) objectURL // URL.createObjectURL(blobedResponse)
         const objectURL = URL.createObjectURL(queryResult.music);
         audiotag.src = objectURL;
-        icon.src = "../../assets/play-icon.svg";
+        icon.src = "../../play-icon.svg";
         try {
           audiotag.play().then(() => {
-            icon.src = "../../assets/pause-icon.svg";
+            icon.src = "../../pause-icon.svg";
             isPlaying = true;
           });
         } catch (error) {
           isPlaying = false;
-          icon.src = "../../assets/play-icon.svg";
+          icon.src = "../../play-icon.svg";
         }
       } else {
         // is not in indexedDB, download it
         audiotag.src = (await downloadAndStoreInDB(track_url, musicid)) || "";
         try {
-          icon.src = "../../assets/play-icon.svg";
+          icon.src = "../../play-icon.svg";
           audiotag.play().then(() => {
-            icon.src = "../../assets/pause-icon.svg";
+            icon.src = "../../pause-icon.svg";
             isPlaying = true;
           });
         } catch (error) {
           isPlaying = false;
-          icon.src = "../../assets/play-icon.svg";
+          icon.src = "../../play-icon.svg";
         }
       }
     };
