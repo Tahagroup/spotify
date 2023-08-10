@@ -1,14 +1,14 @@
 // @ts-ignore
 const { fromEvent, throttleTime, debounceTime, tap, filter, pluck } = rxjs;
 
-//////////////////////Initial Setup/////////////////////////////
+// Initial Setup
 const root = document.querySelector("#root")!;
 // @ts-ignore
 let albumsData: Album[] = JSON.parse(data);
 let audiotag = document.createElement("audio");
 audiotag.id = "audiotag";
 let isPlaying = false;
-////////////////////// Router setup /////////////////////////////
+// Router setup
 router();
 window.addEventListener("popstate", router); // when hitting back button
 function resolveRoute(route: string, nestedRoute: string) {
@@ -49,45 +49,8 @@ function router() {
 function navigateTo(route: string) {
   history.pushState({ pageID: route }, route, `/dist/${route}`);
   router();
-  // window.dispatchEvent(new Event("popstate"));
 }
-/////////////////////////////////////////////////////////////////
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 // component functions:
 function navMenu(activeTab: string) {
   return `<div class='navMenu__flex-wrapper'>
@@ -123,6 +86,7 @@ function navMenu(activeTab: string) {
   </div>
   </div>`;
 }
+
 async function playerPage() {
   const musicid = window.location.href.split("/").pop()!;
   let musicDetail!: Music;
@@ -479,7 +443,6 @@ function searchPage() {
       }),
     };
   }
-  /////////////////////////////////////////
 }
 function libraryPage() {
   const likedItem = `<div class="like-item" onclick='navigateTo("library/likedsongs")'>
@@ -742,7 +705,6 @@ async function loadTrackFromDB(
 async function downloadAndStoreInDB(url: string, id: number) {
   try {
     let musicFile;
-    // await fetch("../assets/test2.mp3")
     await fetch(url)
       .then((response) => response.blob())
       .then(function (blobedResponse) {

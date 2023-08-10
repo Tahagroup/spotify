@@ -10,6 +10,14 @@
   "devDependencies": {
     "@parcel/transformer-sass": "^2.5.0",
     "parcel": "^2.5.0",
+    "parcel-reporter-static-files-copy": "^1.5.2",
     "typescript": "^4.6.4"
+  },
+  "staticFiles": {
+    "staticPath": "source/assets",
+    "watcherGlob": "**"
+  },
+  "dependencies": {
+    "parcel-plugin-static-files-copy": "^2.6.0"
   }
 }
