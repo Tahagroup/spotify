@@ -324,7 +324,6 @@ function searchPage() {
       <div class='found-items-wrapper'></div>
       ${navMenu("search")}
       `;
-  /////////////////////////////////////////////////
   let searchResult: any = {
     artists: [],
     songs: [],
@@ -587,7 +586,7 @@ function albumsPage() {
     .join("")}
   </div>
 </div>
-      ${navMenu}`;
+      ${navMenu("home")}`;
   root.appendChild(div);
   const element = document.querySelector(".album-image") as HTMLImageElement;
   window.addEventListener("scroll", () => {
